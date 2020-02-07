@@ -26,7 +26,7 @@
     https://github.com/Marcus-James-Adams/scripts/windows/functions/
 .Notes  
     Changelog:
-    31/10/2019 - refactored for Novia Financial 
+    07/02/2020 set OAuth Token to be a passed parameter
 #>
 Clear-Host
 function LogWrite {
@@ -93,17 +93,18 @@ function AddToEnviromentVariable ($EnvironmentVariableToModify, $ValueToAdd,$Env
 
 function DownloadFromGit {
   if ($($args.count) -lt 3) {
-    LogWrite  "ERROR: Usage $thisBuild arguments Organization Repo_name Destination (optional) Branch NOT supplied"
-    LogWrite  "EXAMPLE: $thisBuild arguments myOrg myRepo C:\"
+    LogWrite  "ERROR: Usage $thisBuild arguments Organization Repo_name OAuth_Token" Destination (optional) Branch NOT supplied"
+    LogWrite  "EXAMPLE: $thisBuild arguments myOrg myRepo C:\ HUE787...Kioh$ij== master
     exit 99
   }
   $GIT_organization=$($args[0])
   $GIT_repo_name=$($args[1])
   $GIT_destination=$($args[2])
-  if ($($args.count) -lt 4) {
+  $GIT_OAUth=$($args[3])
+  if ($($args.count) -lt 5) {
     $GIT_branch="master"
   } else {
-    $GIT_branch=$($args[3])    
+    $GIT_branch=$($args[4])    
   }
   LogWrite "INFO: Organization is: $GIT_organization"
   LogWrite "INFO: Repo is: $GIT_repo_name"
@@ -132,7 +133,7 @@ function DownloadFromGit {
     [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
     [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12;
     $client = New-Object System.Net.WebClient
-    $client.Headers.Add("Authorization","token 21d84f128bb4e0366028a45ac44124eb6a88841b")
+    $client.Headers.Add("Authorization","token $GIT_OAUth")
     $client.Headers.Add("Accept","application/vnd.github.v3.raw")
     $client.DownloadFile("https://github.com/$GIT_organization/$GIT_repo_name/archive/$GIT_branch.zip","c:\temp\$GIT_branch.zip")
     }
