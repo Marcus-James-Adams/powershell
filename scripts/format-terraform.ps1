@@ -1,5 +1,28 @@
-﻿$Path = 'C:\work\repo\orgs\novia-financial\infrastructure-as-code\'
-# terraform-modules\azurerm'
+﻿<#
+.Filename or Function name 
+    format-terraform.ps1
+.Author(s)
+    Marcus James Adams
+.Version
+    1.5
+.Description
+    Scans a given folder for terrform files, if found runs terraform fmt to tidy them up.
+    Then creates a readme.md for the folder optionally including a content section if content.md exists.
+    Finally pushes to git.
+.Pre-requisits 
+    requires the following to be installed:
+    * Terraform - https://www.terraform.io/downloads.html
+    * Terraform-docs - https://github.com/segmentio/terraform-docs
+    * Git - https://git-scm.com/download/win
+.Link
+    https://github.com/Marcus-James-Adams/powershell/scripts/format-terraform.ps1
+.Notes  
+    You can add several informations here
+    Changelog:
+    * 07/02/2020 - update description
+#>
+ $Path = 'C:\terraform\'
+# 
 Get-ChildItem -Path $Path -Recurse -Directory   | 
     ForEach-Object{
     $tffolder=$_.FullName
